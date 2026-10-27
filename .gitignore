@@ -1,0 +1,29 @@
+# ---- Secrets (never commit) ----
+.env
+.env.local
+**/.env
+**/.env.local
+!**/.env.example
+
+# ---- Build output ----
+target/
+**/target/
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# ---- Logs and local run artifacts ----
+*.log
+*.out
+server.err
+test-output.txt
+
+# ---- Uploaded user files ----
+backend/uploads/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

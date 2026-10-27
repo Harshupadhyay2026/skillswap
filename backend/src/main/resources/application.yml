@@ -1,0 +1,84 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: skillswap-backend
+
+  # Optional local .env file (copy backend/.env.example to backend/.env).
+  # Existing environment variables keep precedence over values in this file.
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:skillswap_db}?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USER:root}
+    password: ${DB_PASS:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+
+  # SMTP used for notification emails. Leave MAIL_HOST empty for local
+  # development: in-app notifications still work and email sending is skipped.
+  mail:
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_STARTTLS:true}
+            required: ${MAIL_STARTTLS_REQUIRED:${MAIL_STARTTLS:true}}
+          ssl:
+            enable: ${MAIL_SSL_ENABLE:false}
+          connectiontimeout: ${MAIL_CONNECTION_TIMEOUT:5000}
+          timeout: ${MAIL_TIMEOUT:5000}
+          writetimeout: ${MAIL_WRITE_TIMEOUT:5000}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+# Custom Application Properties
+app:
+  # Local walkthrough dataset. Disable for production deployments.
+  demo-data:
+    enabled: ${DEMO_DATA_ENABLED:true}
+
+  # Public frontend origin. Used to build absolute links inside emails.
+  frontend-url: ${APP_FRONTEND_URL:http://localhost:5173}
+
+  # Where uploaded avatars are stored (served from /api/files/**).
+  upload:
+    dir: ${UPLOAD_DIR:uploads}
+
+  # Optional moderator bootstrap. Set these env vars once to create/promote
+  # an admin account; leave them empty in normal runs.
+  admin:
+    username: ${ADMIN_USERNAME:}
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
+
+  # Every in-app notification is also emailed to the recipient's registered
+  # address when SMTP is configured. Set MAIL_ENABLED=false to keep in-app
+  # only. MAIL_FROM falls back to the SMTP username when left empty.
+  mail:
+    enabled: ${MAIL_ENABLED:true}
+    from: ${MAIL_FROM:}
+
+  jwt:
+    secret: ${JWT_SECRET:SkillSwapUltraSecureSuperSecretKeyForDevelopmentAndTestingPurposes2026!}
+    expiration-ms: 86400000 # 24 hours
+    refresh-expiration-ms: 604800000 # 7 days

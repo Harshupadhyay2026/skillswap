@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:skillswap_test;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+app:
+  demo-data:
+    enabled: false
+
+  # Keeps uploaded test avatars inside target/ instead of the project root.
+  upload:
+    dir: target/test-uploads
+
+  mail:
+    enabled: false
+
+  jwt:
+    secret: test-secret-key-that-is-definitely-long-enough-for-hs256-signing-algorithm
+    expiration-ms: 3600000
+    refresh-expiration-ms: 7200000
+
+logging:
+  level:
+    org.hibernate.SQL: warn
